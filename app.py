@@ -62,10 +62,14 @@ st.markdown("---")
 st.info("💡 **Tip of the Day:** Did you know that drinking a glass of water first thing in the morning helps jumpstart your metabolism and hydrates your brain for the day ahead?")
 
 # --- TEAM DEMO CHAT FEATURE ---
-st.subheader("💬 Ask NutriBuddy")
+st.subheader("🤖 Ask NutriBuddy")
 user_query = st.text_input("Ask a quick health or nutrition question:")
+
 if st.button("Send to AI"):
-    if user_query:
-        st.write(f"**NutriBuddy:** That's a great question about '{user_query}'! Based on your profile inputs, staying hydrated and keeping a balanced intake is key today.")
-    else:
-        st.warning("Please type a question first.")
+  if user_query:
+    with st.spinner("NutriBuddy is thinking..."):
+      # This is the line that calls the actual AI brain!
+      ai_response = ask_nutribuddy(user_query)
+      st.write(ai_response)
+  else:
+    st.warning("Please type a question first.")
