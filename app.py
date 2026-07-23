@@ -1,5 +1,35 @@
 import streamlit as st
+import os
+from google import genai
+from google.genai import types
 
+# Initialize client
+client = genai.Client()
+
+
+def ask_nutribuddy(user_prompt):
+  system_instruction = (
+      "You are NutriBuddy, a calm, cool, supportive, and knowledgeable wellness"
+      " and nutrition assistant. Your goal is to guide people toward a balanced"
+      " lifestyle with practical, encouraging, and accurate advice. Never roast"
+      " the user. Keep the tone friendly, reassuring, and helpful."
+  )
+
+  try:
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=user_prompt,
+        config=types.GenerateContentConfig(
+            system_instruction=system_instruction,
+            temperature=0.7,
+        ),
+    )
+    return response.text
+  except Exception as e:
+    return (
+        "I'm having a little trouble connecting to my thoughts right now. Let's"
+        " try that again in a moment! 🌱"
+    )
 # --- APP CONFIG & HEADER ---
 st.title("NutriSync: Your Health Companion")
 st.write("Welcome to your team's Vasudha project portal!")
